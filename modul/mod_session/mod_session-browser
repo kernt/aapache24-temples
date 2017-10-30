@@ -1,0 +1,3 @@
+Session On
+SessionCryptoPassphrase secret
+SessionCookieName session path=/
