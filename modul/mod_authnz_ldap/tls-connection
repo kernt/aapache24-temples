@@ -1,0 +1,18 @@
+# Establish a TLS LDAP connection on port 389. Requires that
+# mod_ldap and mod_authnz_ldap be loaded. Change the
+# "yourdomain.example.com" to match your domain.
+
+LDAPTrustedGlobalCert CA_DER "/certs/certfile.der"
+
+<Location "/ldap-status">
+    SetHandler ldap-status
+
+    Require host yourdomain.example.com
+
+    Satisfy any
+    AuthType Basic
+    AuthName "LDAP Protected"
+    AuthBasicProvider ldap
+    AuthLDAPURL "ldap://127.0.0.1/dc=example,dc=com?uid?one" TLS
+    Require valid-user
+</Location>
