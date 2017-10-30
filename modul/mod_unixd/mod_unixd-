@@ -1,0 +1,2 @@
+ChrootDir /path/to/directory
+Group www-group
