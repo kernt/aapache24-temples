@@ -1,3 +1,0 @@
-<Location "/demo">
-    AuthBasicFake demo demopass
-</Location>
