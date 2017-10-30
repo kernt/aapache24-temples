@@ -1,0 +1,9 @@
+SessionCryptoCipher aes256
+
+#Run /path/to/program to get key
+SessionCryptoPassphrase exec:/path/to/program
+
+#Run /path/to/otherProgram and provide arguments
+SessionCryptoPassphrase "exec:/path/to/otherProgram argument1"
+
+SessionCryptoPassphraseFile /parh/to/filename 
