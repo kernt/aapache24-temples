@@ -1,0 +1,7 @@
+Session On
+SessionCryptoPassphrase secret
+SessionCookieName session path=/
+AuthFormProvider file
+AuthUserFile "conf/passwd"
+AuthType form
+AuthName realm
