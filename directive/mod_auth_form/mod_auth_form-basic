@@ -1,0 +1,23 @@
+
+<Location "/admin">
+    AuthFormProvider file
+    AuthUserFile "conf/passwd"
+    AuthType form
+    AuthName "/admin"
+    AuthFormLoginRequiredLocation "http://example.com/login.html"
+
+    Session On
+    SessionCookieName session path=/
+
+    Require valid-user
+</Location>
+
+#The directive AuthType will enable the mod_auth_form authentication when set to the value form. 
+#The directives AuthFormProvider and AuthUserFile specify that usernames and passwords should be checked against the chosen file.
+#The directives Session and SessionCookieName session stored within an HTTP cookie on the browser. 
+#For more information on the different options for configuring a session, read the documentation for mod_session.
+#You can optionally add a SessionCryptoPassphrase to create an encrypted session cookie. 
+#This required the additional module mod_session_crypto be loaded.
+#In the simple example above, a URL has been protected by mod_auth_form, 
+#but the user has yet to be given an opportunity to enter their username and password. 
+#Options for doing so include providing a dedicated standalone login page for this purpose, or for providing the login page inline.
