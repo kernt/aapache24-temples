@@ -1,3 +1,0 @@
-<Location "/secure">
-    AuthBasicFake "%{SSL_CLIENT_S_DN_Email}"
-</Location>
