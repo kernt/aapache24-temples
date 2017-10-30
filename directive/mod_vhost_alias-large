@@ -1,2 +1,19 @@
 UseCanonicalName    Off
 VirtualDocumentRoot "/usr/local/apache/vhosts/%3+/%2.1/%2.2/%2.3/%2"
+
+# As such, one can make a configuration that will direct all first, second or third level subdomains to the same directory:
+VirtualDocumentRoot "/usr/local/apache/vhosts/%-2.0.%-1.0"
+
+#For IP-based virtual hosting you might use the following in your configuration file:
+
+UseCanonicalName DNS
+VirtualDocumentRootIP "/usr/local/apache/vhosts/%1/%2/%3/%4/docs"
+VirtualScriptAliasIP  "/usr/local/apache/vhosts/%1/%2/%3/%4/cgi-bin"
+
+#If you want to include the . character in a VirtualDocumentRoot directive, 
+#but it clashes with a % directive, you can work around the problem in the following way:
+
+VirtualDocumentRoot "/usr/local/apache/vhosts/%2.0.%3.0"
+
+# A request for http://www.domain.example.com/directory/file.html will be satisfied by the file 
+# /usr/local/apache/vhosts/domain.example/directory/file.html.
