@@ -1,8 +1,0 @@
-<Location "/secure">
-    AuthType basic
-    AuthName "private area"
-    AuthBasicProvider  dbm
-    AuthDBMType        SDBM
-    AuthDBMUserFile    "/www/etc/dbmpasswd"
-    Require            valid-user
-</Location>
