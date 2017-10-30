@@ -1,0 +1,31 @@
+UseCanonicalName Off
+
+LogFormat "%V %h %l %u %t \"%r\" %s %b" vcommon
+
+<Directory "/www/commercial">
+    Options FollowSymLinks
+    AllowOverride All
+</Directory>
+
+<Directory "/www/homepages">
+    Options FollowSymLinks
+    AllowOverride None
+</Directory>
+
+<VirtualHost 111.22.33.44>
+    ServerName www.commercial.example.com
+    
+    CustomLog "logs/access_log.commercial" vcommon
+    
+    VirtualDocumentRoot "/www/commercial/%0/docs"
+    VirtualScriptAlias  "/www/commercial/%0/cgi-bin"
+</VirtualHost>
+
+<VirtualHost 111.22.33.45>
+    ServerName www.homepages.example.com
+    
+    CustomLog "logs/access_log.homepages" vcommon
+    
+    VirtualDocumentRoot "/www/homepages/%0/docs"
+    ScriptAlias         "/cgi-bin/" "/www/std-cgi/"
+</VirtualHost>
