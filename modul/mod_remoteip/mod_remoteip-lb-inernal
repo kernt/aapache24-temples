@@ -1,0 +1,5 @@
+#Internal (Load Balancer) Example
+RemoteIPHeader X-Client-IP
+
+#Proxy Example
+RemoteIPHeader X-Forwarded-For
