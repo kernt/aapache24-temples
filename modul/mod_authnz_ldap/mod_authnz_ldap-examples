@@ -1,0 +1,52 @@
+#Source: https://httpd.apache.org/docs/2.4/mod/mod_authnz_ldap.html
+
+# Use secuere Connection 
+LDAPTrustedMode STARTTLS 
+LDAPVerifyServerCert On
+LDAPTimeout 60
+LDAPSharedCacheSize 500000
+LDAPReferrals On
+LDAPReferralHopLimit 5
+LDAPOpCacheTTL 600
+LDAPOpCacheEntries 1024
+
+#Grant access to anyone who exists in the LDAP directory, using their UID for searches.
+AuthLDAPURL "ldap://ldap1.example.com:389/ou=People, o=Example?uid?sub?(objectClass=*)"
+Require valid-user
+
+#The next example is the same as above; but with the fields that have useful defaults omitted. Also, note the use of a redundant LDAP server.
+AuthLDAPURL "ldap://ldap1.example.com ldap2.example.com/ou=People, o=Example"
+Require valid-user
+
+#The next example is similar to the previous one, but it uses the common name instead of the UID. 
+#Note that this could be problematical if multiple people in the directory share the same cn, because a search on cn must return exactly one entry. That's why this approach is not recommended: it's a better idea to choose an attribute that is guaranteed unique in your directory, such as uid.
+AuthLDAPURL "ldap://ldap.example.com/ou=People, o=Example?cn"
+Require valid-user
+
+#Grant access to anybody in the Administrators group. The users must authenticate using their UID.
+AuthLDAPURL ldap://ldap.example.com/o=Example?uid
+Require ldap-group cn=Administrators, o=Example
+
+#Grant access to anybody in the group whose name matches the hostname of the virtual host. 
+#In this example an expression is used to build the filter.
+AuthLDAPURL ldap://ldap.example.com/o=Example?uid
+Require ldap-group cn=%{SERVER_NAME}, o=Example
+
+#The next example assumes that everyone at Example who carries an alphanumeric pager will have an LDAP attribute of qpagePagerID. 
+#The example will grant access only to people (authenticated via their UID) who have alphanumeric pagers:
+AuthLDAPURL ldap://ldap.example.com/o=Example?uid??(qpagePagerID=*)
+Require valid-user
+
+#The next example demonstrates the power of using filters to accomplish complicated administrative requirements. 
+#Without filters, it would have been necessary to create a new LDAP group and ensure that the group's members remain synchronized with the pager users. This becomes trivial with filters. The goal is to grant access to anyone who has a pager, plus grant access to Joe Manager, who doesn't have a pager, but does need to access the same resource:
+AuthLDAPURL ldap://ldap.example.com/o=Example?uid??(|(qpagePagerID=*)(uid=jmanager))
+Require valid-user
+
+#This last may look confusing at first, so it helps to evaluate what the search filter will look like based on who connects, as shown below. If Fred User connects as fuser, the filter would look like
+
+(&(|(qpagePagerID=*)(uid=jmanager))(uid=fuser))
+
+#The above search will only succeed if fuser has a pager. When Joe Manager connects as jmanager, the filter looks like
+
+(&(|(qpagePagerID=*)(uid=jmanager))(uid=jmanager))
+#The above search will succeed whether jmanager has a pager or not.
