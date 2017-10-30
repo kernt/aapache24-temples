@@ -1,0 +1,20 @@
+# Specify two CA certificate files
+LDAPTrustedGlobalCert CA_DER "/certs/cacert1.der"
+LDAPTrustedGlobalCert CA_BASE64 "/certs/cacert2.pem"
+<Location "/ldap-status">
+    SetHandler ldap-status
+
+    Require host yourdomain.example.com
+
+    LDAPTrustedClientCert CERT_BASE64 "/certs/cert1.pem"
+    LDAPTrustedClientCert KEY_BASE64 "/certs/key1.pem"
+    # CA certs respecified due to per-directory client certs
+    LDAPTrustedClientCert CA_DER "/certs/cacert1.der"
+    LDAPTrustedClientCert CA_BASE64 "/certs/cacert2.pem"
+    Satisfy any
+    AuthType Basic
+    AuthName "LDAP Protected"
+    AuthBasicProvider ldap
+    AuthLDAPURL "ldaps://127.0.0.1/dc=example,dc=com?uid?one"
+    Require valid-user
+</Location>
