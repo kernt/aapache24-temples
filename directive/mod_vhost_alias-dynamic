@@ -1,5 +1,0 @@
-<VirtualHost 111.22.33.44>
-  ServerName www.domain.tld
-  ServerPath /domain
-  DocumentRoot /web/domain
-</VirtualHost>
