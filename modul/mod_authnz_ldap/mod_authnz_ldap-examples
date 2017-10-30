@@ -9,6 +9,11 @@ LDAPReferrals On
 LDAPReferralHopLimit 5
 LDAPOpCacheTTL 600
 LDAPOpCacheEntries 1024
+AuthLDAPMaxSubGroupDepth 10
+AuthLDAPRemoteUserAttribute uid
+AuthLDAPSubgroupAttribute member uniquemember
+AuthLDAPSubGroupClass groupOfNames groupOfUniqueNames
+
 
 #Grant access to anyone who exists in the LDAP directory, using their UID for searches.
 AuthLDAPURL "ldap://ldap1.example.com:389/ou=People, o=Example?uid?sub?(objectClass=*)"
